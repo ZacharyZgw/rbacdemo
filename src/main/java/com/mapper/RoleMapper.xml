@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Role">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="rolename" jdbcType="VARCHAR" property="roleName" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, rolename
+  </sql>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.entity.Role">
+    insert into role (id, rolename)
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.entity.Role">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleName != null">
+                rolename,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="rname != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.entity.Role">
+        update role
+        <set>
+            <if test="roleName != null">
+                rolename = #{roleName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateById" parameterType="com.entity.Role">
+    update role
+    set rolename = #{roleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
